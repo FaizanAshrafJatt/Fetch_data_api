@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Karachi Time </title>
+</head>
+<body>
+  <h1>
+   This is an up-to dateand time  of  Karachi city     
+  </h1>
+  <div id="data">
+
+  </div>
+  
+  <script>
+let a = fetch("http://worldtimeapi.org/api/timezone/Asia/Karachi"); 
+a.then((value1)=> {
+  return value1.json()
+}).then((value2) =>{
+ 
+ document.getElementById("data").innerHTML = value2 ; 
+ console.log(value2)
+});
+
+
+
+  </script>
+</body>
+</html>

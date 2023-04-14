@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karachi Time</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    
+    th, td {
+      text-align: left;
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    </style>
+    
+</head>
+<body>
+  <h1>Current Time in Karachi</h1>
+  <table>
+    <tr>
+      <th>Timezone</th>
+      <th>Current Time</th>
+      <th>Date</th>
+      <th>offset</th>
+    </tr>
+    <tbody id="data"></tbody>
+  </table>
+  
+  <script>
+    let a = fetch("http://worldtimeapi.org/api/timezone/Asia/Karachi"); 
+    a.then((response) => {
+      return response.json()
+    }).then((data) => {
+      const timezone = data.timezone;
+      const datetime = data.datetime;
+      const offset1 = data.utc_offset;
+      const date = datetime.slice(2, 10);
+      const time = datetime.slice(11, 19);
+
+      const tableData = `
+        <tr>
+          <td>${timezone}</td>
+          <td>${time}</td>
+          <td>${date}</td>
+          <td>${offset1}</td>
+        </tr>
+      `;
+      document.getElementById("data").innerHTML = tableData;
+    });
+  </script>
+</body>
+</html>
