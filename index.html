@@ -44,10 +44,10 @@
   </table>
   
   <script>
-    let a = fetch("http://worldtimeapi.org/api/timezone/Asia/Karachi"); 
-    a.then((response) => {
+    fetch("http://worldtimeapi.org/api/timezone/Asia/Karachi").then((response) => {
       return response.json()
     }).then((data) => {
+      // console.log(data);
       const timezone = data.timezone;
       const datetime = data.datetime;
       const offset1 = data.utc_offset;
