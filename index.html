@@ -61,7 +61,7 @@
    
     select.addEventListener("change", () => {
       const timezone = select.value;
-      fetch(`http://worldtimeapi.org/api/timezone/${timezone}`)
+      fetch(`https://worldtimeapi.org/api/timezone/${timezone}`)
         .then(response => response.json())
         .then(data => {
           const datetime = data.datetime;
