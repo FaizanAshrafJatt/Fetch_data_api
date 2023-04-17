@@ -4,14 +4,12 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Karachi Time</title>
+  <title>World Time</title>
   <style>
     table {
       border-collapse: collapse;
       width: 100%;
       margin-top: 20px;
-      
-
     }
     
     th, td {
@@ -28,43 +26,60 @@
     tr:nth-child(even) {
       background-color: #f2f2f2;
     }
-    </style>
-    
+  </style>
 </head>
 <body>
-  <h1>Current Time in Karachi</h1>
+  <h1>World Time</h1>
+  <label for="timezone">Select a timezone:</label>
+  <select id="timezone">
+    <option value="" disabled selected>Select a timezone</option>
+  </select>
   <table>
     <tr>
       <th>Timezone</th>
       <th>Current Time</th>
       <th>Date</th>
-      <th>offset</th>
+      <th>Offset</th>
     </tr>
     <tbody id="data"></tbody>
   </table>
-  
-  <script>
-    fetch("https://worldtimeapi.org/api/timezone/Asia/Karachi").then((response) => {
-      return response.json()
-    }).then((data) => {
-      // console.log(data);
-      const timezone = data.timezone;
-      const datetime = data.datetime;
-      const offset1 = data.utc_offset;
-      const date = datetime.slice(2, 10);
-      const time = datetime.slice(11, 19);
 
-      const tableData = `
-        <tr>
-          <td>${timezone}</td>
-          <td>${time}</td>
-          <td>${date}</td>
-          <td>${offset1}</td>
-        </tr>
-      `;
-      document.getElementById("data").innerHTML = tableData;
+  <script>
+    const select = document.getElementById("timezone");
+
+    fetch("https://worldtimeapi.org/api/timezone")
+      .then(response => response.json())
+      .then(timezones => {
+        timezones.forEach(timezone => {
+          const option = document.createElement("option");
+          option.value = timezone;
+          option.textContent = timezone.replace(/_/g, " ");
+          select.appendChild(option);
+        });
+      });
+
+   
+    select.addEventListener("change", () => {
+      const timezone = select.value;
+      fetch(`http://worldtimeapi.org/api/timezone/${timezone}`)
+        .then(response => response.json())
+        .then(data => {
+          const datetime = data.datetime;
+          const offset = data.utc_offset;
+          const date = datetime.slice(5, 10);
+          const time = datetime.slice(11, 19);
+
+          const tableData = `
+            <tr>
+              <td>${timezone.replace(/_/g, " ")}</td>
+              <td>${time}</td>
+              <td>${date}</td>
+              <td>${offset}</td>
+            </tr>
+          `;
+          document.getElementById("data").innerHTML = tableData;
+        });
     });
   </script>
-
 </body>
 </html>
